@@ -53,7 +53,7 @@ config.development = {
 // The Prodution Compiler Configuration
 // ----------------------------------
 config.production = {
-  compiler_public_path: '/',
+  compiler_public_path: '/static/',
   compiler_fail_on_warning: false,
   compiler_devtool: 'source-map',
   compiler_stats: {

@@ -18,8 +18,8 @@ const config = {
   },
 
   output: {
-    path: project.paths.src('public'),
-    publicPath: __PROD__ ? project.production.compiler_public_path : '/',
+    path: project.paths.src('public/static'),
+    publicPath: __PROD__ ? project.production.compiler_public_path : '/static/',
     filename: __DEV__ ? '[name].js' : 'js/[name].[chunkhash].js',
     // work with lazy loading
     chunkFilename: __DEV__ ? '[name].js' : 'js/[name].[chunkhash].js',
@@ -98,7 +98,7 @@ const config = {
     new CopyWebpackPlugin([
       {
         from: project.paths.src('assets/images'),
-        to: project.paths.src('public/images'),
+        to: project.paths.src('public/static/images'),
       },
     ]),
     new ExtractTextPlugin({
@@ -145,7 +145,7 @@ if (__PROD__) {
     new webpack.optimize.OccurrenceOrderPlugin(),
     new AssetsWebpackPlugin({
       filename: 'assets_map.json',
-      path: project.paths.src('public'),
+      path: project.paths.src('public/static'),
       prettyPrint: true,
     }),
     // extract webpack runtime and module manifest to its own file in order to

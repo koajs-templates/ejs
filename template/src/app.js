@@ -35,15 +35,13 @@ if (IS_DEV) {
   }));
 }
 
-if (IS_PROD) {
-  app.use(serve(path.resolve(__dirname, './public/'), {
-    maxage: 1000 * 60 * 60 * 24 * 30, // a month
-  }));
-}
-
+app.use(serve(path.resolve(__dirname, './public/'), {
+  maxage: 1000 * 60 * 60 * 24 * 30, // a month
+}));
 app.use(assets({
   env: process.env.NODE_ENV,
-  manifestPath: path.join(__dirname, 'public', 'assets_map.json'),
+  manifestPath: path.join(__dirname, 'public/static', 'assets_map.json'),
+  outPath: '/static',
   // If assets have been uploaded to cdn
   // cdn: '//cdn.upchina.com',
 }));
