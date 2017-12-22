@@ -1,5 +1,5 @@
 {
-  "name": "name",
+  "name": "{{name}}",
   "version": "0.0.0",
   "private": true,
   "engines": {
@@ -24,8 +24,8 @@
     "release:package": "cross-env-shell \"cd dist && tar -zcvf $npm_package_name.tar.gz $npm_package_name\" "
   },
   "pre-commit": [
-    "lint",
-    "prettier"
+    "prettier",
+    "lint"
   ],
   "author": "chenbin92 travisxu",
   "dependencies": {
@@ -51,6 +51,7 @@
     "css-loader": "^0.28.4",
     "eslint": "^4.1.1",
     "eslint-config-egg": "^4.2.1",
+    "eslint-config-prettier": "^2.9.0",
     "eslint-watch": "^3.1.2",
     "eventsource-polyfill": "^0.9.6",
     "extract-text-webpack-plugin": "^2.1.2",
