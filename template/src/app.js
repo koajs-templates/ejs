@@ -6,9 +6,8 @@ import bodyParser from 'koa-bodyparser';
 
 import assets from './middleware/assets';
 import state from './middleware/state';
-import router from './router';
+import page from './router/page';
 import api from './router/api';
-import { chalkInfo } from '../build/chalkConfig';
 
 const PORT = process.env.HTTP_PORT || 3000;
 const IP = process.env.HTTP_IP || undefined;
@@ -40,19 +39,18 @@ app.use(serve(path.resolve(__dirname, './public/'), {
 }));
 app.use(assets({
   env: process.env.NODE_ENV,
-  manifestPath: path.join(__dirname, 'public/static', 'assets_map.json'),
+  manifestPath: path.join(__dirname, 'public/static/', 'manifest.json'),
   outPath: '/static',
   // If assets have been uploaded to cdn
   // cdn: '//cdn.upchina.com',
 }));
 app.use(state());
 app.use(bodyParser());
-app.use(api().routes()).use(api().allowedMethods());
-app.use(router().routes()).use(router().allowedMethods());
+app.use(api());
+app.use(page());
 
 app.listen(PORT, IP, () => {
-  /* eslint no-console: 0 */
-  console.log(chalkInfo(`============= [app started at http://${IP ? IP : 'localhost'}:${PORT}]============= `));
+  console.log(`============= [app started at http://${IP ? IP : 'localhost'}:${PORT}]============= `);
 });
 
 export default app;
