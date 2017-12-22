@@ -15,7 +15,7 @@
     "test": "nyc mocha --compilers js:babel-register --require babel-polyfill --timeout 3500",
     "release": "npm-run-all clean build release:copy release:deps release:package",
     "clean": "rimraf src/public/static dist",
-    "prettier": "prettier */**/*.js --write",
+    "prettier": "prettier */**/*.js --write && git add . && git status",
     "lint:watch": "npm run lint -- --watch",
     "test:cover": "nyc --reporter=html npm test",
     "watch:assets": "npm run clean && webpack --watch --colors --display-error-details --config build/webpack.config.js",
