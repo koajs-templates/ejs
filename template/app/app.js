@@ -1,4 +1,4 @@
-import Koa from "koa";
+import { Application as Koa } from "./framework";
 import path from "path";
 import render from "koa-ejs";
 import serve from "koa-static";
@@ -6,8 +6,6 @@ import bodyParser from "koa-bodyparser";
 
 import assets from "./middleware/assets";
 import state from "./middleware/state";
-import page from "./router/page";
-import api from "./router/api";
 
 const PORT = process.env.HTTP_PORT || 3000;
 const IP = process.env.HTTP_IP || undefined;
@@ -52,8 +50,6 @@ app.use(
 );
 app.use(state());
 app.use(bodyParser());
-app.use(api());
-app.use(page());
 
 app.listen(PORT, IP, () => {
   console.log(

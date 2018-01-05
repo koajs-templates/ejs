@@ -1,5 +1,5 @@
 {
-  "name": "{{name}}",
+  "name": "name",
   "version": "0.0.0",
   "private": true,
   "engines": {
@@ -8,18 +8,18 @@
   },
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon --ignore src/assets/ --ignore src/public --ignore dist/ index.js",
+    "dev": "cross-env NODE_ENV=development nodemon --ignore app/assets/ --ignore app/public --ignore dist/ index.js",
     "start": "cross-env-shell NODE_ENV=production \"npm run build && node index.js\"",
     "build": "cross-env-shell NODE_ENV=production \"npm-run-all --parallel clean lint && webpack --colors --display-error-details --config build/webpack.config.js\"",
     "lint": "esw . && stylelint **/*.scss",
     "test": "nyc mocha --compilers js:babel-register --require babel-polyfill --timeout 3500",
     "release": "npm-run-all clean build release:copy release:deps release:package",
-    "clean": "rimraf src/public/static dist",
+    "clean": "rimraf app/public/static dist",
     "prettier": "prettier */**/*.js --write && git add . && git status",
     "lint:watch": "npm run lint -- --watch",
     "test:cover": "nyc --reporter=html npm test",
     "watch:assets": "npm run clean && webpack --watch --colors --display-error-details --config build/webpack.config.js",
-    "release:copy": "cross-env-shell \"shx mkdir -p dist/$npm_package_name && shx cp -r src/ *.js *.json .babelrc dist/$npm_package_name\" ",
+    "release:copy": "cross-env-shell \"shx mkdir -p dist/$npm_package_name && shx cp -r app/ *.js *.json .babelrc dist/$npm_package_name\" ",
     "release:deps": "cross-env-shell \"cd dist/$npm_package_name && npm i --production\" ",
     "release:package": "cross-env-shell \"cd dist && tar -zcvf $npm_package_name.tar.gz $npm_package_name\" "
   },
@@ -38,7 +38,8 @@
     "koa-router": "^7.2.1",
     "koa-static": "^4.0.0",
     "lodash": "^4.17.4",
-    "moment": "^2.18.1"
+    "moment": "^2.18.1",
+    "travisxu-egg-core": "^4.3.0"
   },
   "devDependencies": {
     "assets-webpack-plugin": "^3.5.1",

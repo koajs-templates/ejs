@@ -1,6 +1,6 @@
 coverage
-src/public/*
-src/view/*
+app/public/*
+app/view/*
 node_modules/
 test/
 dist/

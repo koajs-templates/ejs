@@ -3,4 +3,4 @@ require('babel-register')({
 });
 require('babel-polyfill');
 
-module.exports = require('./src/app.js');
+module.exports = require('./app/app.js');

@@ -14,14 +14,14 @@ function resolve(dir) {
 }
 
 const config = {
-  context: resolve("src/assets/javascripts"),
+  context: resolve("app/assets/javascripts"),
 
   entry: {
     application: ["babel-polyfill", "./application.js"]
   },
 
   output: {
-    path: resolve("src/public/static"),
+    path: resolve("app/public/static"),
     publicPath: "/static/",
     filename: IS_PROD ? "js/[name].[chunkhash].js" : "[name].js",
     chunkFilename: IS_PROD ? "js/[name].[chunkhash].js" : "[name].js" // works with lazy loading
@@ -94,8 +94,8 @@ const config = {
   plugins: [
     new CopyWebpackPlugin([
       {
-        from: resolve("src/assets/images"),
-        to: resolve("src/public/static/images")
+        from: resolve("app/assets/images"),
+        to: resolve("app/public/static/images")
       }
     ]),
     new ExtractTextPlugin({
@@ -140,7 +140,7 @@ if (IS_PROD) {
     new webpack.optimize.OccurrenceOrderPlugin(),
     new AssetsWebpackPlugin({
       filename: "manifest.json",
-      path: resolve("src/public/static"),
+      path: resolve("app/public/static"),
       prettyPrint: true
     }),
     // extract webpack runtime and module manifest to its own file in order to
