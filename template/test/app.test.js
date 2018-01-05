@@ -23,7 +23,7 @@ describe('app', function() {
 });
 
 describe('calculator', function() {
-  const cal = require('../src/service/add');
+  const cal = require('../app/service/add');
 
   it('should return 2 with argu 4,2', function(done) {
     cal.asyncCalculatorCallback(4, 2, function(err, result) {

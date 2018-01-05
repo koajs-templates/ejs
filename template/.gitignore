@@ -3,8 +3,8 @@ coverage
 .logs
 npm-debug.log
 .vscode
-/src/public/static
-/src/config/assets_map.json
+/app/public/static
+/app/config/assets_map.json
 dist/
 .nyc_output
 .DS_Store

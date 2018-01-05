@@ -7,12 +7,12 @@
   <title><%=title%></title>
   <link rel="stylesheet" href="<%= asset_path('application.css') %>">
 </head>
-<body>
-  <% if(process.env.NODE_ENV === 'production'){ %>
-  <script src="<%= asset_path('manifest.js') %>"></script>
-  <% } %>
-  <script src="<%= asset_path('vendors.js') %>"></script>
-  <script src="<%= asset_path('application.js') %>"></script>
+<body data-page="<%=controller.controller_name%>:<%=controller.action_name%>">
   <%-body%>
+  <% if(process.env.NODE_ENV === 'production'){ %>
+  <script defer="defer" src="<%= asset_path('manifest.js') %>"></script>
+  <% } %>
+  <script defer="defer" src="<%= asset_path('vendors.js') %>"></script>
+  <script defer="defer" src="<%= asset_path('application.js') %>"></script>
 </body>
 </html>
