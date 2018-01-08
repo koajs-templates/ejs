@@ -50,11 +50,12 @@ app.use(
 );
 app.use(state());
 app.use(bodyParser());
-
-app.listen(PORT, IP, () => {
-  console.log(
-    `============= [app started at http://${IP ? IP : "localhost"}:${PORT}]============= `
-  );
-});
+app.ready(()=>{
+  app.listen(PORT, IP, () => {
+    console.log(
+      `============= [app started at http://${IP ? IP : "localhost"}:${PORT}]============= `
+    );
+  });
+})
 
 export default app;

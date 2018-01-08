@@ -1,6 +1,5 @@
 import _app from '..';
 import request from 'supertest';
-import should from 'should';
 
 describe('app', function() {
   const app = _app.callback();
