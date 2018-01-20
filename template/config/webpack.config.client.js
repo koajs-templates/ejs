@@ -7,13 +7,17 @@ const CompressionPlugin = require("compression-webpack-plugin");
 const OptimizeCSSPlugin = require("optimize-css-assets-webpack-plugin");
 
 const IS_PROD = process.env.NODE_ENV === "production";
-const ROOT_PATH = path.resolve(__dirname, '..');
+const ROOT_PATH = path.resolve(__dirname, "..");
 
 function resolve(dir) {
   return path.join(ROOT_PATH, dir);
 }
 
 const config = {
+  name: 'client',
+
+  target:'web',
+
   context: resolve("src/assets/javascripts"),
 
   entry: {
@@ -21,10 +25,10 @@ const config = {
   },
 
   output: {
-    path: resolve("src/public/static"),
+    path: resolve("public/static"),
     publicPath: "/static/",
     filename: IS_PROD ? "js/[name].[chunkhash].js" : "[name].js",
-    chunkFilename: IS_PROD ? "js/[name].[chunkhash].js" : "[name].js" // works with lazy loading
+    chunkFilename: IS_PROD ? "js/[name].[chunkhash].js" : "[name].chunk.js" // works with lazy loading
   },
 
   resolve: {
@@ -55,7 +59,8 @@ const config = {
                     browsers: [">1%", "last 4 versions", "Firefox ESR", "not ie < 9"]
                   }
                 }
-              ]
+              ],
+              ["stage-2"]
             ]
           }
         }
@@ -71,10 +76,9 @@ const config = {
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         use: {
-          loader: "file-loader",
+          loader: "url-loader",
           options: {
-            limit: 10000,
-            name: "images/[name].[hash:7].[ext]"
+            limit: 2048,
           }
         }
       },
@@ -95,7 +99,7 @@ const config = {
     new CopyWebpackPlugin([
       {
         from: resolve("src/assets/images"),
-        to: resolve("src/public/static/images")
+        to: resolve("public/static/images")
       }
     ]),
     new ExtractTextPlugin({
@@ -103,7 +107,7 @@ const config = {
     }),
     new webpack.ProvidePlugin({
       $: "jquery",
-      jQuery: "jquery",
+      jQuery: "jquery"
     }),
     new webpack.DefinePlugin({
       "process.env": { NODE_ENV: JSON.stringify("production") }
@@ -140,7 +144,7 @@ if (IS_PROD) {
     new webpack.optimize.OccurrenceOrderPlugin(),
     new AssetsWebpackPlugin({
       filename: "manifest.json",
-      path: resolve("src/public/static"),
+      path: resolve("public/static"),
       prettyPrint: true
     }),
     // extract webpack runtime and module manifest to its own file in order to
