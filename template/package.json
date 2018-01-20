@@ -1,12 +1,12 @@
 {
-  "name": "template",
+  "name": "{{name}}",
   "version": "0.0.0",
   "private": true,
   "engines": {
     "node": ">=6.3",
     "npm": ">=3.10"
   },
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon --watch src/ --exec babel-node src/server.js",
     "start": "cross-env-shell NODE_ENV=production \"npm run build && node dist/server.js\"",
