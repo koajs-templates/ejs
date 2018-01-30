@@ -9,30 +9,7 @@ import state from "./middleware/state";
 import page from "./router/page";
 import api from "./router/api";
 
-const IS_DEV = process.env.NODE_ENV === "development";
-const IS_PROD = process.env.NODE_ENV === "production";
-
 const app = new Koa();
-
-render(app, {
-  root: path.join(__dirname, "view"),
-  layout: "layout/index",
-  viewExt: "ejs",
-  cache: IS_PROD
-});
-
-if (IS_DEV) {
-  const webpack = require("webpack");
-  const dev = require("./middleware/dev");
-  const webpackConfig = require("../config/webpack.config.client");
-  const compiler = webpack(webpackConfig);
-  app.use(
-    dev(compiler, {
-      publicPath: webpackConfig.output.publicPath,
-      stats: { colors: true }
-    })
-  );
-}
 
 app.use(
   serve(path.resolve(__dirname, "../public/"), {
@@ -41,16 +18,31 @@ app.use(
 );
 app.use(
   assets({
-    env: process.env.NODE_ENV,
-    manifestPath: path.join(__dirname, "../public/static/", "manifest.json"),
-    outPath: "/static"
-    // If assets have been uploaded to cdn
-    // cdn: '//cdn.upchina.com',
+    publicPath: "/static/"
+    // prepend: '//cdn.upchina.com' // If assets have been uploaded to cdn
   })
 );
 app.use(state());
 app.use(bodyParser());
 app.use(api());
 app.use(page());
+
+render(app, {
+  root: path.join(__dirname, "view"),
+  layout: "layout/index",
+  viewExt: "ejs",
+  cache: app.env === "production"
+});
+
+// proxy the webpack assets directory to the webpack-dev-server.
+// It is only intended for use in development.
+if (app.env === "development") {
+  const proxy = require("koa-proxies");
+  app.use(
+    proxy("/static", {
+      target: "http://localhost:3808"
+    })
+  );
+}
 
 export default app;

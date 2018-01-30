@@ -14,9 +14,9 @@ function resolve(dir) {
 }
 
 const config = {
-  name: 'client',
+  name: "client",
 
-  target:'web',
+  target: "web",
 
   context: resolve("src/assets/javascripts"),
 
@@ -32,16 +32,27 @@ const config = {
   },
 
   resolve: {
+    alias: {
+      vue$: "vue/dist/vue.esm.js"
+    },
     extensions: [".js", ".vue", ".json"]
   },
 
   module: {
     rules: [
       {
-        test: /\.scss$/,
+        test: /\.less$/,
         exclude: /node_modules/,
         use: ExtractTextPlugin.extract({
-          use: [{ loader: "css-loader" }, { loader: "sass-loader" }],
+          use: [{ loader: "css-loader" }, { loader: "less-loader" }],
+          fallback: "style-loader"
+        })
+      },
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: ExtractTextPlugin.extract({
+          use: [{ loader: "css-loader" }],
           fallback: "style-loader"
         })
       },
@@ -60,7 +71,8 @@ const config = {
                   }
                 }
               ],
-              ["stage-2"]
+              ["stage-2"],
+              ["react"]
             ]
           }
         }
@@ -78,7 +90,7 @@ const config = {
         use: {
           loader: "url-loader",
           options: {
-            limit: 2048,
+            limit: 10000
           }
         }
       },
@@ -109,9 +121,6 @@ const config = {
       $: "jquery",
       jQuery: "jquery"
     }),
-    new webpack.DefinePlugin({
-      "process.env": { NODE_ENV: JSON.stringify("production") }
-    }),
     new webpack.optimize.CommonsChunkPlugin({
       name: "vendors",
       minChunks: function(module) {
@@ -129,18 +138,25 @@ const config = {
 if (!IS_PROD) {
   config.devtool = "cheap-module-eval-source-map";
   config.plugins.push(new webpack.HotModuleReplacementPlugin(), new webpack.NoEmitOnErrorsPlugin());
+  config.devServer = {
+    host: "0.0.0.0",
+    port: "3808"
+  };
 }
 
 if (IS_PROD) {
   config.devtool = "source-map";
   config.plugins.push(
+    new webpack.DefinePlugin({
+      "process.env": { NODE_ENV: JSON.stringify("production") }
+    }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         unused: true,
         dead_code: true,
         warnings: false
       },
-      sourceMap: true,
+      sourceMap: true
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new AssetsWebpackPlugin({
